@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess The Number!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+            flex-direction: column;
+            color: #333;
+        }
+        .game-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #4682b4;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            border: 2px solid #aaddff;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 80px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4682b4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #5a9bd4;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Guess The Number!</h1>
+        <p>I\'m thinking of a number between 1 and 100.</p>
+        <p>Can you guess what it is?</p>
+        <input type="number" id="guessInput" min="1" max="100">
+        <button onclick="checkGuess()">Guess!</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let guesses = 0;
+
+        function checkGuess() {
+            const guessInput = document.getElementById(\'guessInput\');
+            const messageDisplay = document.getElementById(\'message\');
+            const userGuess = Number(guessInput.value);
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                messageDisplay.textContent = \'Please enter a valid number between 1 and 100.\';
+                messageDisplay.style.color = \'red\';
+                return;
+            }
+
+            guesses++;
+
+            if (userGuess === randomNumber) {
+                messageDisplay.textContent = \`Yay! You guessed the number \${randomNumber} in \${guesses} guesses!\`;
+                messageDisplay.style.color = \'green\';
+                guessInput.disabled = true;
+            } else if (userGuess < randomNumber) {
+                messageDisplay.textContent = \'Too low! Try again.\';
+                messageDisplay.style.color = \'orange\';
+            } else {
+                messageDisplay.textContent = \'Too high! Try again.\';
+                messageDisplay.style.color = \'orange\';
+            }
+            guessInput.value = \'\';
+            guessInput.focus();
+        }
+    </script>
+</body>
+</html>
